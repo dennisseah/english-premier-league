@@ -24,9 +24,13 @@
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": [
         "--line-length",
-        "80"
+        "100"
     ],
     "python.pythonPath": "${workspaceFolder}/venv/bin/python",
     "python.linting.pylintPath": "venv/bin/pylint",
-    "python.linting.flake8Enabled": true
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=100",
+        "--ignore=E203",
+    ],
 }

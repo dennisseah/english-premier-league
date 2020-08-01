@@ -11,5 +11,6 @@ def execute(prop: dict):
         prop (dict): properties
     """
     num = prop["num"] if "num" in prop else 8
-    df = ttl_points()
+    last = prop["last"] if "last" in prop else 8
+    df = ttl_points({"last": last})
     return json.dumps(df.iloc[0:num].to_dict(orient="record"))

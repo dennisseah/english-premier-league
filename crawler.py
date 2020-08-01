@@ -1,11 +1,12 @@
 # for i in range(1993, 2020):
 #     print(f"curl https://sports-statistics.com/database/soccer-data/england-premier-league-{i}-to-{i+1}.csv -o raw/{i}-{i+1}")
+# http://www.football-data.co.uk/englandm.php
 
 import pandas
 
 all_data = None
 
-for i in range(1993, 2019):
+for i in range(1993, 2020):
     df = pandas.read_csv(f"raw/{i}-{i+1}")
     df = df[["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG"]]
     df = df[~df["Date"].isna()]
