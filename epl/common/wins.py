@@ -1,6 +1,7 @@
 """ wins calculating functions """
 import numpy
 
+from epl.common.dataframes import get as get_dataframe
 from epl.common.seasons import execute as seasons
 
 
@@ -10,14 +11,17 @@ def execute(prop: dict):
     Args:
         prop (dict): properties
     """
-    dataframe = prop["dataframe"]
+    dataframe = get_dataframe("data")
     team = prop["team"]
 
-    if "last" in prop:
+    if "season" in prop:
+        dataframe = dataframe[dataframe["season"].eq(prop["season"])]
+    elif "last" in prop:
         last_seasons = seasons({"last": prop["last"]})
         dataframe = dataframe[dataframe["season"].isin(last_seasons)]
 
     df = dataframe[dataframe["home"].eq(team) | dataframe["away"].eq(team)].reset_index(drop=True)
+    df["team"] = team
     df["wins"] = 0
     df["draws"] = 0
     df["loses"] = 0
@@ -40,4 +44,4 @@ def execute(prop: dict):
     df["loses"] = numpy.where(
         df["away"].eq(team) & df["away_score"].lt(df["home_score"]), 1, df["loses"],
     )
-    return df
+    return df[["season", "team", "wins", "draws", "loses"]]

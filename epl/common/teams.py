@@ -9,4 +9,6 @@ def execute(prop: dict):
         prop (dict): properties
     """
     dataframe = get_dataframe("data")
+    if "season" in prop:
+        dataframe = dataframe[dataframe["season"].eq(prop["season"])]
     return dataframe["home"].unique().tolist()

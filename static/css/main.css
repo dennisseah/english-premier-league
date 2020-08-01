@@ -1,7 +1,19 @@
 html body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: helvetica, sans-serif;
 }
 
 h2 {
     font-weight: 300;
+}
+
+a {
+    color: #678BC7
+}
+
+a:hover {
+    color: #678BC7
+}
+
+a:visited {
+    color: #678BC7
 }

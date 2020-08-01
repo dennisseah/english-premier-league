@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            border-spacing: 0px;
+        }
+
+        table th,
+        table td {
+            padding: 8px;
+            text-align: right;
+        }
+
+        tr:nth-child(1) {
+            background-color: #3F5161;
+            color: #fff;
+        }
+
+        tr:nth-child(2),
+        tr:nth-child(3),
+        tr:nth-child(4),
+        tr:nth-child(5) {
+            background-color: #91C8F6;
+        }
+
+        tr:last-child,
+        tr:nth-last-child(2),
+        tr:nth-last-child(3) {
+            background-color: #E7ECF0;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Season: {{ season }} </h2>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>G</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>F</th>
+            <th>A</th>
+            <th>P</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match["team"] }}</td>
+            <td>{{ match["matches"] }}</td>
+            <td>{{ match["wins"] }}</td>
+            <td>{{ match["draws"] }}</td>
+            <td>{{ match["loses"] }}</td>
+            <td>{{ match["goal_scored"] }}</td>
+            <td>{{ match["goal_conceded"] }}</td>
+            <td>{{ match["scores"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

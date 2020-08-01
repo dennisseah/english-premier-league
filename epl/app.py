@@ -2,10 +2,12 @@
 import os
 
 from flask import Flask, request, render_template
-from epl.common.http import bad_req_response, json_response
+from epl.common.http import bad_req_response, json_response, not_found_req_response
 from epl.services.top_clubs import execute as top_clubs
 from epl.services.agg_total_points import execute as agg_total_points
 from epl.services.agg_wins import execute as agg_wins
+from epl.services.agg_goals import execute as agg_goals
+from epl.services.matches import execute as matches
 
 APP = Flask(
     __name__,
@@ -18,6 +20,20 @@ APP = Flask(
 @APP.route("/")
 def index():
     return render_template("index.html")
+
+
+@APP.route("/map")
+def map_index():
+    return render_template("map.html")
+
+
+@APP.route("/season")
+def season_index():
+    season = request.args.get("s")
+    (result, season) = matches({"season": season})
+    if len(result) == 0:
+        return not_found_req_response("Not Found")
+    return render_template("season.html", season=season, matches=result)
 
 
 @APP.route("/top_clubs")
@@ -48,6 +64,17 @@ def team_wins() -> object:
         return bad_req_response("missing t query parameter")
     last = request.args.get("l", 8)
     return json_response(agg_wins({"team": team, "last": int(last)}))
+
+
+@APP.route("/team_goals")
+def team_goals() -> object:
+    """ return number of goals scored and conceded of team for each season
+    """
+    team = request.args.get("t")
+    if team is None:
+        return bad_req_response("missing t query parameter")
+    last = request.args.get("l", 8)
+    return json_response(agg_goals({"team": team, "last": int(last)}))
 
 
 if __name__ == "__main__":

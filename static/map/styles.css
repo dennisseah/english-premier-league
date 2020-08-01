@@ -1,0 +1,52 @@
+html body {
+    font-family: helvetica, sans-serif;
+}
+
+.subunit.SCT {
+    fill: #ccc;
+}
+
+.subunit.WLS {
+    fill: #ccc;
+}
+
+.subunit.NIR {
+    fill: #ccc;
+}
+
+.subunit.ENG {
+    fill: #19A979;
+    opacity: 0.5;
+}
+
+.subunit.IRL, .subunit-label.IRL {
+    display: none;
+}
+
+.subunit-boundary {
+    fill: none;
+    stroke: #777;
+    stroke-dasharray: 2, 2;
+    stroke-linejoin: round;
+    opacity: 0.5;
+}
+
+.subunit-boundary.IRL {
+    stroke: #aaa;
+    opacity: 0.5;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    width: 120px;
+    height: 18px;
+    padding: 4px;
+    margin: 4px;
+    font-size: 1rem;
+    background: black;
+    border: 0px;
+    color: white;
+    border-radius: 4px;
+    pointer-events: none;
+}

@@ -10,3 +10,7 @@ def json_response(obj: object) -> object:
 
 def bad_req_response(body: str) -> object:
     return make_response(body, 400)
+
+
+def not_found_req_response(body: str) -> object:
+    return make_response(body, 404)

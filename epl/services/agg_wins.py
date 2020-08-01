@@ -2,7 +2,6 @@
 
 import json
 
-from epl.common.dataframes import get as get_dataframe
 from epl.common.wins import execute as cal_wins
 
 
@@ -12,9 +11,7 @@ def execute(prop: dict):
     Args:
         prop (dict): properties
     """
-    dataframe = cal_wins(
-        {"dataframe": get_dataframe("data"), "team": prop["team"], "last": prop["last"]}
-    )
+    dataframe = cal_wins({"team": prop["team"], "last": prop["last"]})
     dataframe_agg = (
         dataframe[["season", "wins", "draws", "loses"]].groupby(["season"]).agg("sum").reset_index()
     )

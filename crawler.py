@@ -2,13 +2,16 @@
 #     print(f"curl https://sports-statistics.com/database/soccer-data/england-premier-league-{i}-to-{i+1}.csv -o raw/{i}-{i+1}")
 # http://www.football-data.co.uk/englandm.php
 
+import numpy
 import pandas
 
 all_data = None
 
 for i in range(1993, 2020):
     df = pandas.read_csv(f"raw/{i}-{i+1}")
-    df = df[["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG"]]
+    if "Referee" not in df.columns:
+        df["Referee"] = ""
+    df = df[["Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "Referee"]]
     df = df[~df["Date"].isna()]
     df.rename(
         columns={
