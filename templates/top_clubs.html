@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            border-spacing: 0px;
+        }
+
+        table th,
+        table td {
+            padding: 8px;
+            text-align: right;
+        }
+
+        tr:nth-child(1) {
+            background-color: #3F5161;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>For the last {{ last }} seasons</h2>
+    <table>
+        <tr>
+            <th>Team</th>
+            <th>Points</th>
+        </tr>
+        {% for team in result %}
+        <tr>
+            <td>{{ team["team"] }}</td>
+            <td>{{ team["sum"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

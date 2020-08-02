@@ -1,5 +1,6 @@
 """ Microservice """
 import os
+import json
 
 from flask import Flask, request, render_template
 from epl.common.http import bad_req_response, json_response, not_found_req_response
@@ -27,25 +28,35 @@ def map_index():
     return render_template("map.html")
 
 
-@APP.route("/season")
-def season_index():
+@APP.route("/table")
+def table_index():
     season = request.args.get("s")
     (result, season) = matches({"season": season})
     if len(result) == 0:
         return not_found_req_response("Not Found")
-    return render_template("season.html", season=season, matches=result)
+    return render_template("table.html", season=season, matches=result)
 
 
 @APP.route("/top_clubs")
+def top_clubs_index():
+    num = request.args.get("n", 5)
+    last = request.args.get("l", 5)
+    result = top_clubs({"num": int(num), "last": int(last)})
+    result = result.to_dict(orient="record")
+    return render_template("top_clubs.html", last=last, result=result)
+
+
+@APP.route("/api/top_clubs")
 def topclubs() -> object:
     """ return list of top clubs
     """
-    num = request.args.get("n", 8)
-    last = request.args.get("l", 8)
-    return json_response(top_clubs({"num": int(num), "last": int(last)}))
+    num = request.args.get("n", 5)
+    last = request.args.get("l", 5)
+    result = top_clubs({"num": int(num), "last": int(last)})
+    return json_response(json.dumps(result.to_dict(orient="record")))
 
 
-@APP.route("/team_scores")
+@APP.route("/api/team_scores")
 def team_scores() -> object:
     """ return scores of team for each season
     """
@@ -55,7 +66,7 @@ def team_scores() -> object:
     return json_response(agg_total_points({"team": team}))
 
 
-@APP.route("/team_wins")
+@APP.route("/api/team_wins")
 def team_wins() -> object:
     """ return number of wins, draws or loses of team for each season
     """
@@ -66,7 +77,7 @@ def team_wins() -> object:
     return json_response(agg_wins({"team": team, "last": int(last)}))
 
 
-@APP.route("/team_goals")
+@APP.route("/api/team_goals")
 def team_goals() -> object:
     """ return number of goals scored and conceded of team for each season
     """
