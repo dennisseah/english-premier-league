@@ -2,7 +2,6 @@
 #     print(f"curl https://sports-statistics.com/database/soccer-data/england-premier-league-{i}-to-{i+1}.csv -o raw/{i}-{i+1}")
 # http://www.football-data.co.uk/englandm.php
 
-import numpy
 import pandas
 
 all_data = None
@@ -20,6 +19,7 @@ for i in range(1993, 2020):
             "AwayTeam": "away",
             "FTHG": "home_score",
             "FTAG": "away_score",
+            "Referee": "referee",
         },
         inplace=True,
     )

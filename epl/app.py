@@ -9,6 +9,7 @@ from epl.services.agg_total_points import execute as agg_total_points
 from epl.services.agg_wins import execute as agg_wins
 from epl.services.agg_goals import execute as agg_goals
 from epl.services.matches import execute as matches
+from epl.services.referees import execute as referees
 
 APP = Flask(
     __name__,
@@ -44,6 +45,42 @@ def top_clubs_index():
     result = top_clubs({"num": int(num), "last": int(last)})
     result = result.to_dict(orient="record")
     return render_template("top_clubs.html", last=last, result=result)
+
+
+@APP.route("/referees")
+def referees_index():
+    season = request.args.get("s")
+    last = request.args.get("l")
+    num = request.args.get("n")
+    n_last = int(last) if last is not None else None
+    result = referees({"season": season, "last": n_last})
+    result = result.to_dict(orient="record")
+    result = sorted(result, key=lambda x: (-x["count"]))
+
+    if num is not None:
+        result = result[0 : int(num)]
+
+    return render_template("referees.html", result=result)
+
+
+@APP.route("/api/referees")
+def referees_api():
+    season = request.args.get("s")
+    last = request.args.get("l")
+    num = request.args.get("n")
+
+    n_last = int(last) if last is not None else None
+    result = referees({"season": season, "last": n_last})
+    result = result.to_dict(orient="record")
+    result = sorted(result, key=lambda x: (-x["count"]))
+
+    if num is not None:
+        result = result[0 : int(num)]
+    sum = 0
+    for x in result:
+        sum = sum + x["count"]
+    print(sum)
+    return json_response(json.dumps(result))
 
 
 @APP.route("/api/top_clubs")

@@ -26,4 +26,3 @@ def execute(prop: dict = None):
         return result
 
     return sorted
-
